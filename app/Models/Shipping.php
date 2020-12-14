@@ -8,4 +8,6 @@ class Shipping extends Model
 {
     protected $table = 'shippings';
     protected $guarded  = ['created_at','updated_at'];
+
+
 }

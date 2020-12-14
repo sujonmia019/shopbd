@@ -1,7 +1,11 @@
 @extends('frontend.layouts.frontend_master')
 
 @section('frontend_content')
-
+    <style>
+        .mytable tr td {
+            padding: 10px 5px !important;
+        }
+    </style>
     <!-- Hero Section Begin -->
     <section class="hero hero-normal">
         <div class="container">
@@ -86,8 +90,106 @@
 
                 <div class="col-lg-9">
                     <div class="card mt-3">
-                        <div class="card-body">
+                        <div class="card-body" id="table">
+                            <table class="mytable" width="100%" border="1">
+                                <tr>
+                                    <td width="30%" class="text-center">
+                                        <img src="{{ asset('public/frontend/img/logo.png') }}" alt="">
+                                    </td>
+                                    <td width="40%" class="text-center">
+                                        <h4><strong>ShopMama</strong></h4>
+                                        <span><strong>E-mail:</strong> sujonbdjoin@gmail.com</span><br>
+                                        <span><strong>Address:</strong> Mirpur-1, Dhaka </span>
+                                    </td>
+                                    <td width="30%" class="text-center">
+                                        <strong>Invoice No:&nbsp; #{{ $Order->invoice_no }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Billing info:</strong></td>
+                                    <td colspan="2">
+                                        <span><strong>Name:</strong> {{ $Shipping->fname }} {{ $Shipping->lname }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 
+                                        <span><strong>E-mail:</strong> {{ $Shipping->email }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        <span><strong>Mobile:</strong> {{ $Shipping->phone }}</span><br>
+
+                                        <span><strong>Address:</strong> {{ $Shipping->address }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        <span><strong>City:</strong> {{ $Shipping->city }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        <span><strong>State:</strong> {{ $Shipping->state }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        <span><strong>Post-Code:</strong> {{ $Shipping->postcode }}</span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table class="mytable" width="100%" border="1">
+                                <tr>
+                                    <td class="text-center" colspan="4"><h5><strong>Order Details</strong></h5></td>
+                                </tr>
+                                <tr>
+                                    <td width="40%" class="text-center">Product Name </td>
+                                    <td width="20%" class="text-center">Product image</td>
+                                    <td width="10%" class="text-center">Quantity</td>
+                                    <td width="20%" class="text-center">Product Price</td>
+                                </tr>
+                                @foreach ($OrderDetails as $item)
+                                    <tr>
+                                        <td>{{ $item->product->product_name }}</td>
+                                        <td class="text-center">
+                                            <img width="80px" src="{{ asset('public/backend/img/product/'.$item->product->thumbnail_image) }}" alt="">
+                                        </td>
+                                        <td class="text-center">{{ $item->product_qty }}</td>
+                                        <td class="text-center">
+                                            ৳ {{ $item->product->product_price }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                    @if ($Order->coupon_discount)
+                                        <tr>
+                                            <td colspan="3" class="text-right">
+                                                <strong>Subtotal:</strong>
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>
+                                                    ৳ {{ $Order->subtotal }}
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-right">
+                                                <strong>Discount:</strong>
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>
+                                                    ৳ {{ $Order->subtotal * $Order->coupon_discount / 100}}&nbsp;({{ $Order->coupon_discount }}%)
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-right">
+                                                <strong>Grand Total:</strong>
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>
+                                                    ৳ {{ $Order->total }}
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    @else
+                                        <td colspan="3" class="text-right">
+                                            <strong>Grand Total:</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>
+                                                ৳ {{ $Order->total }}
+                                            </strong>
+                                        </td>
+                                    @endif
+
+                            </table>
                         </div>
                     </div>
                 </div>

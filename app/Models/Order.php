@@ -8,4 +8,5 @@ class Order extends Model
 {
     protected $table = 'orders';
     protected $guarded  = ['created_at','updated_at'];
+
 }

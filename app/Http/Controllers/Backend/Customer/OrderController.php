@@ -81,7 +81,7 @@ class OrderController extends Controller
     // Customer Order Page
     public function orderAll(){
         $Cart = Product::orderby('id','DESC')->select('category_id')->groupBy('category_id')->where('status',1)->get();
-        $Order = Order::where('user_id', Auth::id())->latest()->get();
+        $Order = Order::where('user_id', Auth::user()->id)->get();
         return view('frontend.pages.orders', compact('Cart','Order'));
     }
 
